@@ -21,7 +21,6 @@ dnl Fetch the version and timestamp from RELEASE_NOTES
 # Initialise autoconf
 AC_INIT([ESPResSo],[3.0.1],[espressomd-users@nongnu.org])
 
-AC_PREREQ([2.59])
 AC_CONFIG_SRCDIR([src/main.c])
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_MACRO_DIR(config)
@@ -32,6 +31,8 @@ AC_CANONICAL_TARGET
 # Initialise automake
 AM_INIT_AUTOMAKE([1.10 gnu])
 AM_MAINTAINER_MODE
+LT_INIT
+AM_PATH_PYTHON
 
 cat <<EOF
 ****************************************************************
@@ -164,7 +165,6 @@ EOF
 
 AC_PROG_AWK
 AC_PROG_EGREP
-AC_PROG_RANLIB
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PATH_PROG(DOXYGEN,doxygen,no)
@@ -483,6 +483,7 @@ AC_CONFIG_HEADERS([src/acconfig.h])
 AC_CONFIG_FILES([
 	Makefile
 	src/Makefile
+	cython/Makefile
 	tools/Makefile
 	scripts/Makefile 
 	testsuite/Makefile

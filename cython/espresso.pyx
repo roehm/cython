@@ -45,7 +45,7 @@ cdef mpi_init_helper():
   c=NULL
   mpi_init(&i, &c)
 
-cdef extern from "../../src/initialize.h":
+cdef extern from "initialize.h":
   void on_program_start(Tcl_Interp*)
   void mpi_loop()
 
