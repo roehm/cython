@@ -30,6 +30,7 @@
 #include <mpi.h>
 #include <tcl.h>
 #include <stdio.h>
+#include <string.h>
 #include "utils.h"
 #include "parser.h"
 #include "communication.h"
@@ -146,6 +147,42 @@ int tclcommand_lbfluid_cpu(Tcl_Interp *interp, int argc, char **argv);
 int tclcommand_lbfluid_gpu(Tcl_Interp *interp, int argc, char **argv);
 int tclcommand_lbnode_cpu(Tcl_Interp *interp, int argc, char **argv);
 int tclcommand_lbnode_gpu(Tcl_Interp *interp, int argc, char **argv);
+
+void python_lb_init(char* dev){
+  char *errtxt;
+#ifdef LB
+  if(!(lattice_switch & LATTICE_LB_GPU)) lattice_switch = lattice_switch | LATTICE_LB;
+#else
+  lattice_switch = lattice_switch | LATTICE_LB_GPU;
+#endif
+  char s1 = "gpu";
+  if(strcmp (&s1,dev)!=0){
+    #ifdef LB_GPU
+    lattice_switch = (lattice_switch &~ LATTICE_LB) | LATTICE_LB_GPU;
+    printf("gpu string test: %s \n", dev);
+  #else
+    fprintf(stderr, "LB_GPU not compiled in!\n");
+  #endif 
+  }else{
+  #ifdef LB
+        lattice_switch = (lattice_switch & ~LATTICE_LB_GPU) | LATTICE_LB;
+        printf("cpu string test: %s \n", dev);
+  #else
+     fprintf(stderr, "LB not compiled in!\n");
+  #endif
+  }
+  
+  
+#if defined (LB) || defined (LB_GPU)
+  mpi_bcast_parameter(FIELD_LATTICE_SWITCH);
+
+  /* thermo_switch is retained for backwards compatibility */
+  thermo_switch = (thermo_switch | THERMO_LB);
+  mpi_bcast_parameter(FIELD_THERMO_SWITCH);
+#else /* !defined LB||LB_GPU */
+  fprintf(stderr, "LB or LB_GPU not compiled in!\n");
+#endif
+}
 
 int tclcommand_lbfluid(ClientData data, Tcl_Interp *interp, int argc, char **argv) {
   argc--; argv++;

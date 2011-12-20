@@ -24,10 +24,6 @@ cdef class NonBondedInteractionHandle:
         self.params[0].LJ_sig =value["sigma"]
         del value["sigma"]
 
-      if "sigma" in value:
-        self.params[0].LJ_sig =value["sigma"]
-        del value["sigma"]
-
       if "cut" in value:
         self.params[0].LJ_cut =value["cut"]
         del value["cut"]

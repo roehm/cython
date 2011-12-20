@@ -2,6 +2,7 @@
 
 cdef extern from "../../src/communication.h":
   void mpi_set_time_step(double time_step)
+  #void despite the "original" is int?
   void mpi_bcast_parameter(int p)
 
 cdef extern from "../../src/integrate.h":

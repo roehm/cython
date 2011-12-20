@@ -34,6 +34,13 @@ cdef class GlobalsHandle:
     def __get__(self):
       return np.array([box_l[0], box_l[1], box_l[2]])
 
+  #property friction:
+   # def __set__(self, double _friction):
+     # mpi_set_friction(_friction)
+    #def __get__(self):
+     # global friction
+      #return friction
+
 
 
 

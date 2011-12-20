@@ -45,3 +45,4 @@
 
 #define MPI_CORE
 #define FORCE_CORE
+#define LB

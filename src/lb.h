@@ -550,6 +550,7 @@ MDINLINE void lb_get_populations(index_t index, double* pop) {
   }
 }
 
+#endif /* LB */
 /* A C level interface to the LB fluid */ 
 int lb_lbfluid_set_density(double p_dens);
 int lb_lbfluid_set_agrid(double p_agrid);
@@ -583,8 +584,7 @@ int lb_lbnode_set_pi(int* ind, double* pi);
 int lb_lbnode_set_pi_neq(int* ind, double* pi_neq);
 int lb_lbnode_set_pop(int* ind, double* pop);
 
-#endif /* LB */
-
+void python_lb_init(char* dev);
 #endif /* LB_H */
 
 /*@}*/
